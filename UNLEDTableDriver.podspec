@@ -15,9 +15,9 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "TableDriver"
+  s.name         = "UNLEDTableDriver"
   s.version      = "0.0.1"
-  s.summary      = "TableDriver delivers a simple way for providing a UITableView's datasource and delegate"
+  s.summary      = "UNLEDTableDriver delivers a simple way for providing a UITableView's datasource and delegate"
 
   s.description  = <<-DESC
                    A longer description of TableDriver in Markdown format.
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
                    * Finally, don't worry about the indent, CocoaPods strips it!
                    DESC
 
-  s.homepage     = "https://github.com/rob5408/TableDriver"
+  s.homepage     = "https://github.com/rob5408/UNLEDTableDriver"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/rob5408/TableDriver.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/rob5408/UNLEDTableDriver.git", :tag => "0.0.1" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -89,7 +89,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files    = "TableDriver/UNLEDTableDriver.h"
+  s.source_files    = "UNLEDTableDriver/UNLEDTableDriver.h"
 
   # s.source_files  = "Classes", "Classes/**/*.{h,m}"
   # s.exclude_files = "Classes/Exclude"
