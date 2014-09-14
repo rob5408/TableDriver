@@ -1,6 +1,6 @@
 //
 //  UNLEDSection.m
-//  TableDriver
+//  UNLEDTableDriver
 //
 //  Created by Robert Johnson on 9/12/14.
 //  Copyright 2014 Unled, LLC. All rights reserved.
@@ -15,7 +15,7 @@
 
 @end
 
-@implementation Section
+@implementation UNLEDSection
 
 //@property (nonatomic, strong) NSMutableArray *options;      // Holds Non-Row objects
 //@property (nonatomic, strong) Row *row;                     // Example Row if options are homogenous
@@ -30,34 +30,39 @@
 //@property (nonatomic) BOOL multiRow;
 //@property (nonatomic) BOOL imageSection;
 
-//- (id)init
-//{
-//    if((self = [super init]))
-//	{
-//		self.rows = [NSMutableArray new];
-//        self.rowTypeRegistry = [NSMutableDictionary new];
-//    }
-//    return self;
-//}
-//
-//- (void)registerRow:(Row *)row forClass:(Class)class
-//{
-//    self.rowTypeRegistry[NSStringFromClass(class)] = row;
-//}
-//
-//- (void)registerRow:(Row *)row forClasses:(NSArray *)classes
-//{
-//    for (Class class in classes)
-//    {
-//        [self registerRow:row forClass:class];
-//    }
-//}
-//
-//// ???:Unregister
-//
-//- (Row *)rowForClass:(Class)class
-//{
-//    return self.rowTypeRegistry[NSStringFromClass(class)];
-//}
+- (id)init
+{
+    if((self = [super init]))
+	{
+		self.rows = [NSMutableArray new];
+        self.rowTypeRegistry = [NSMutableDictionary new];
+    }
+    return self;
+}
+
+- (void)addRow:(UNLEDRow *)row
+{
+    [self.rows addObject:row];
+}
+
+- (void)registerRow:(UNLEDRow *)row forClass:(Class)class
+{
+    self.rowTypeRegistry[NSStringFromClass(class)] = row;
+}
+
+- (void)registerRow:(UNLEDRow *)row forClasses:(NSArray *)classes
+{
+    for (Class class in classes)
+    {
+        [self registerRow:row forClass:class];
+    }
+}
+
+// ???:Unregister
+
+- (UNLEDRow *)rowForClass:(Class)class
+{
+    return self.rowTypeRegistry[NSStringFromClass(class)];
+}
 
 @end

@@ -1,12 +1,10 @@
 //
 //  UNLEDRow.m
-//  TableDriver
+//  UNLEDTableDriver
 //
 //  Created by Robert Johnson on 9/12/14.
 //  Copyright 2014 Unled, LLC. All rights reserved.
 //
-
-//typedef void (^VoidBlock)();
 
 #import "UNLEDRow.h"
 

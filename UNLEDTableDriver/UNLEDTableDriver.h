@@ -1,21 +1,25 @@
 //
 //  UNLEDTableDriver.h
-//  TableDriver
+//  UNLEDTableDriver
 //
 //  Created by Robert Johnson on 9/12/14.
 //  Copyright 2014 Unled, LLC. All rights reserved.
 //
 
-@interface UNLEDTableDriver : NSObject
+#import <UIKit/UIKit.h>
+#import "UNLEDSection.h"
+#import "UNLEDRow.h"
 
-//@property (nonatomic, assign) UITableViewCellStyle style;
-//@property (nonatomic, assign) CGFloat height;
-//
-//@property (nonatomic, copy) NSString* textLabelText;            // The text to appear in textLabel
-//@property (nonatomic, copy) NSString* detailTextLabelText;      // The text to appear in detailTextLabel
-//@property (nonatomic, copy) NSString* imageViewImagePath;       // The title of the image to appear in imageView
-//@property (nonatomic, copy) CellForRowAtIndexPathBlock cellForRowAtIndexPathBlock;
-//@property (nonatomic, copy) ConfigCellForRowAtIndexPathBlock configCellForRowAtIndexPathBlock;
-//@property (nonatomic, copy) DidSelectRowAtIndexPathBlock didSelectRowAtIndexPathBlock;
+typedef NSArray * (^UNLEDTableDriverPrepareSectionsBlock)(void);
+
+@interface UNLEDTableDriver : NSObject <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, copy) UNLEDTableDriverPrepareSectionsBlock prepareSections;
+
+- (void)drive:(UITableView *)tableView;
+
+- (void)update;
+
+- (void)reloadSection:(UNLEDSection *)section;
 
 @end

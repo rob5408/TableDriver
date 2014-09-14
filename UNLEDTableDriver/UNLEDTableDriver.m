@@ -1,16 +1,17 @@
 //
 //  UNLEDTableDriver.m
-//  TableDriver
+//  UNLEDTableDriver
 //
 //  Created by Robert Johnson on 9/12/14.
 //  Copyright 2014 Unled, LLC. All rights reserved.
 //
 
-//typedef void (^VoidBlock)();
-
 #import "UNLEDTableDriver.h"
+#import "UITableViewCell+UNLEDAdditions.h"
 
-@interface UNLEDTableDriver ()
+@interface UNLEDTableDriver () <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *tableView;
 
 //@property (nonatomic) BOOL selected;
 //
@@ -21,55 +22,46 @@
 //@property (nonatomic) SEL callback;
 //@property (nonatomic, assign) NSUInteger type;
 
+@property (nonatomic, strong) NSArray *sections;
 
 @end
 
 @implementation UNLEDTableDriver
 
-//- (instancetype)init
-//{
-//    if(self = [super init])
-//    {
-//        self.height = 44.0f;
-//    }
-//    
-//    return self;
-//}
-
-
-//
-//  SectionTableViewController.m
-//  OSSM
-//
-//  Created by Robert Johnson on 7/2/10.
-//  Copyright 2010 Robert Johnson. All rights reserved.
-//
-
-// We'll divert all inits through initWithStyle so we don't have to litter the code throughout with these esoteric calls (ie inistWithStyle)
-//- (id)init
-//{
-//	if(self = [super initWithStyle:UITableViewStyleGrouped])
-//	{
-//        self.sections = [NSMutableArray array];
-//	}
-//    
-//	return self;
-//}
-
-#pragma mark - SectionTableViewController
-
-- (void)prepareSections
+- (instancetype)init
 {
+    if (self = [super init])
+    {
+        //self.height = 44.0f;
+        
+        self.sections = [NSArray array];
+    }
+    
+    return self;
 }
 
-#pragma mark - UIViewController
+#pragma mark - UNLEDTableDriver
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)drive:(UITableView *)tableView
 {
-    [super viewWillAppear:animated];
+    self.tableView = tableView;
+    tableView.dataSource = self;
+    tableView.delegate = self;
+}
+
+- (void)update
+{
+    if (self.prepareSections)
+    {
+        self.sections = self.prepareSections();
+    }
     
-    [self prepareSections];
     [self.tableView reloadData];
+}
+
+- (void)reloadSection:(UNLEDSection *)section
+{
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self.sections indexOfObject:section]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark - UITableViewDataSource
@@ -81,13 +73,13 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    Section *s = self.sections[section];
+    UNLEDSection *s = self.sections[section];
     return s.title;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    Section *s = self.sections[section];
+    UNLEDSection *s = self.sections[section];
     return s.rows.count;
 }
 
@@ -95,28 +87,45 @@
 {
     UITableViewCell *cellForRowAtIndexPath = nil;
     
-    Section *section = self.sections[indexPath.section];
+    UNLEDSection *section = self.sections[indexPath.section];
     id objectForRow = section.rows[indexPath.row];
-    Row *row = ([objectForRow isKindOfClass:[Row class]])? objectForRow: ([section rowForClass:[objectForRow class]])?: nil;
+    UNLEDRow *row = ([objectForRow isKindOfClass:[UNLEDRow class]]) ? objectForRow : ([section rowForClass:[objectForRow class]]) ?: nil;
     
-    if(row)
+    if (row)
     {
-        if(row.cellForRowAtIndexPathBlock)
+        if (row.cellForRowAtIndexPathBlock)
         {
             cellForRowAtIndexPath = row.cellForRowAtIndexPathBlock(tableView, indexPath, objectForRow);
         }
         else
         {
-            if(row.style)
+            if (row.style)
             {
-                cellForRowAtIndexPath = [UITableViewCell cellWithStyle:row.style forTableView:tableView];
+                if (row.reuseIdentifier)
+                {
+                    cellForRowAtIndexPath = [UITableViewCell cellWithStyle:row.style reuseIdentifier:row.reuseIdentifier forTableView:tableView];
+                }
+                else
+                {
+                    cellForRowAtIndexPath = [UITableViewCell cellWithStyle:row.style forTableView:tableView];
+                }
             }
             else
             {
-                cellForRowAtIndexPath = [UITableViewCell cellForTableView:tableView];
+                if (row.reuseIdentifier)
+                {
+                    cellForRowAtIndexPath = [UITableViewCell cellWithReuseIdentifier:row.reuseIdentifier forTableView:tableView];
+                }
+                else
+                {
+                    cellForRowAtIndexPath = [UITableViewCell cellForTableView:tableView];
+                }
             }
             
-            if(row.configCellForRowAtIndexPathBlock) row.configCellForRowAtIndexPathBlock(cellForRowAtIndexPath, indexPath, objectForRow);
+            if (row.configCellForRowAtIndexPathBlock)
+            {
+                row.configCellForRowAtIndexPathBlock(cellForRowAtIndexPath, indexPath, objectForRow);
+            }
             else
             {
                 cellForRowAtIndexPath.imageView.image = [UIImage imageNamed:row.imageViewImagePath];
@@ -152,11 +161,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Section *section = self.sections[indexPath.section];
+    UNLEDSection *section = self.sections[indexPath.section];
     id objectForRow = section.rows[indexPath.row];
-    Row *row = ([objectForRow isKindOfClass:[Row class]])? objectForRow: ([section rowForClass:[objectForRow class]])?: nil;
+    UNLEDRow *row = ([objectForRow isKindOfClass:[UNLEDRow class]]) ? objectForRow : ([section rowForClass:[objectForRow class]]) ?: nil;
     
-    if(row.didSelectRowAtIndexPathBlock) row.didSelectRowAtIndexPathBlock(tableView, indexPath, objectForRow);
+    if (row.didSelectRowAtIndexPathBlock)
+    {
+        row.didSelectRowAtIndexPathBlock(tableView, indexPath, objectForRow);
+    }
 }
 
 @end
