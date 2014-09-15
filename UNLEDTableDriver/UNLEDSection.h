@@ -11,9 +11,7 @@
 @interface UNLEDSection : NSObject
 
 @property (nonatomic, copy) NSString *title;          // The text to appear in headers
-//@property (nonatomic) NSUInteger type;
-//@property (nonatomic) NSInteger weight;
-@property (nonatomic, strong) NSMutableArray *rows;
+@property (nonatomic, strong) NSArray *rows;
 
 - (void)addRow:(UNLEDRow *)row;
 

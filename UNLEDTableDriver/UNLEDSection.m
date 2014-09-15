@@ -17,6 +17,9 @@
 
 @implementation UNLEDSection
 
+//@property (nonatomic) NSUInteger type;
+//@property (nonatomic) NSInteger weight;
+
 //@property (nonatomic, strong) NSMutableArray *options;      // Holds Non-Row objects
 //@property (nonatomic, strong) Row *row;                     // Example Row if options are homogenous
 //@property (nonatomic, copy) NSString *indexTitle;     // The text to appear in indexes
@@ -42,7 +45,9 @@
 
 - (void)addRow:(UNLEDRow *)row
 {
-    [self.rows addObject:row];
+    NSMutableArray *rows = [self.rows mutableCopy];
+    [rows addObject:row];
+    self.rows = [NSArray arrayWithArray:rows];
 }
 
 - (void)registerRow:(UNLEDRow *)row forClass:(Class)class
