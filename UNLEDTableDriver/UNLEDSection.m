@@ -35,8 +35,10 @@
 
 - (id)init
 {
-    if((self = [super init]))
+    if ((self = [super init]))
 	{
+        self.headerHeight = UITableViewAutomaticDimension;
+        self.footerHeight = UITableViewAutomaticDimension;
 		self.rows = [NSMutableArray new];
         self.rowTypeRegistry = [NSMutableDictionary new];
     }

@@ -20,6 +20,7 @@ typedef NSArray * (^UNLEDTableDriverPrepareSectionsBlock)(void);
 
 - (void)update;
 
+- (UNLEDSection *)sectionAtIndex:(NSUInteger)index;
 - (void)reloadSection:(UNLEDSection *)section;
 
 @end

@@ -10,12 +10,14 @@
 typedef id (^UNLEDTableDriverCellForRowAtIndexPathBlock)(UITableView *tableView, NSIndexPath *indexPath, id object);
 typedef void (^UNLEDTableDriverConfigCellForRowAtIndexPathBlock)(UITableViewCell *tableViewCell, NSIndexPath *indexPath, id object);
 typedef void (^UNLEDTableDriverDidSelectRowAtIndexPathBlock)(UITableView *tableView, NSIndexPath *indexPath, id object);
+typedef CGFloat (^UNLEDTableDriverHeightForRowAtIndexPath)(UITableView *tableView, NSIndexPath *indexPath, id object);
 
 @interface UNLEDRow : NSObject
 
 @property (nonatomic, assign) UITableViewCellStyle style;
-@property (nonatomic, copy) NSString *reuseIdentifier;          // Only set this if you want to force some row from reusing each other
-//@property (nonatomic, assign) CGFloat height;
+@property (nonatomic, copy) NSString *reuseIdentifier;          // Set this if you want use a prototype cell or to prevent rows from reusing each other
+@property (nonatomic, assign) CGFloat height;
+@property (nonatomic, copy) UNLEDTableDriverHeightForRowAtIndexPath heightForRowAtIndexPath;
 
 @property (nonatomic, copy) NSString* textLabelText;            // The text to appear in textLabel
 @property (nonatomic, copy) NSString* detailTextLabelText;      // The text to appear in detailTextLabel

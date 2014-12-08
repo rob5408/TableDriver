@@ -32,8 +32,6 @@
 {
     if (self = [super init])
     {
-        //self.height = 44.0f;
-        
         self.sections = [NSArray array];
     }
     
@@ -54,14 +52,28 @@
     if (self.prepareSections)
     {
         self.sections = self.prepareSections();
+        
+        // ???:Loop through new sections and invoke reloadRows?
     }
     
     [self.tableView reloadData];
 }
 
+- (UNLEDSection *)sectionAtIndex:(NSUInteger)index
+{
+    return [self.sections objectAtIndex:index];
+}
+
 - (void)reloadSection:(UNLEDSection *)section
 {
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:[self.sections indexOfObject:section]] withRowAnimation:UITableViewRowAnimationNone];
+    if (section.reloadRows) {
+        section.rows = section.reloadRows();
+    }
+    
+    NSUInteger indexOfSection = [self.sections indexOfObject:section];
+    if (indexOfSection != NSNotFound) {
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexOfSection] withRowAnimation:UITableViewRowAnimationNone];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -81,6 +93,34 @@
 {
     UNLEDSection *s = self.sections[section];
     return s.rows.count;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    UNLEDSection *s = self.sections[section];
+
+    if (s.headerBackgroundColor) {
+        view.tintColor = s.headerBackgroundColor;
+    }
+
+    if (s.headerFontColor) {
+        UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+        [header.textLabel setTextColor:s.headerFontColor];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
+{
+    UNLEDSection *s = self.sections[section];
+    
+    if (s.footerBackgroundColor) {
+        view.tintColor = s.footerBackgroundColor;
+    }
+    
+    if (s.footerFontColor) {
+        UITableViewHeaderFooterView *footer = (UITableViewHeaderFooterView *)view;
+        [footer.textLabel setTextColor:s.footerFontColor];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -147,17 +187,39 @@
 
 #pragma mark - UITableViewDelegate
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    CGFloat heightForRowAtIndexPath = 44.0;
-//
-//    Section *section = self.sections[indexPath.section];
-//    id objectForRow = section.rows[indexPath.row];
-//    Row *row = ([objectForRow isKindOfClass:[Row class]])? objectForRow: ([section rowForClass:[objectForRow class]])?: nil;
-//    if(row) heightForRowAtIndexPath = row.height;
-//
-//    return heightForRowAtIndexPath;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat heightForRowAtIndexPath = 44.0;
+
+    UNLEDSection *section = self.sections[indexPath.section];
+    id objectForRow = section.rows[indexPath.row];
+    UNLEDRow *row = ([objectForRow isKindOfClass:[UNLEDRow class]])? objectForRow: ([section rowForClass:[objectForRow class]])?: nil;
+    if (row)
+    {
+        if (row.heightForRowAtIndexPath)
+        {
+            heightForRowAtIndexPath = row.heightForRowAtIndexPath(tableView, indexPath, objectForRow);
+        }
+        else
+        {
+            heightForRowAtIndexPath = row.height;
+        }
+    }
+
+    return heightForRowAtIndexPath;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    UNLEDSection *s = self.sections[section];
+    return s.headerHeight;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    UNLEDSection *s = self.sections[section];
+    return s.footerHeight;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
