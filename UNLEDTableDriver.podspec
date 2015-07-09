@@ -16,16 +16,12 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "UNLEDTableDriver"
-  s.version      = "0.0.1"
-  s.summary      = "UNLEDTableDriver delivers a simple way for providing a UITableView's datasource and delegate"
+  s.version      = "0.0.2"
+  s.summary      = "UNLEDTableDriver delivers a simple way for providing a UITableView's DataSource and Delegate"
 
   s.description  = <<-DESC
-                   A longer description of TableDriver in Markdown format.
-
-                   * Think: Why did you write this? What is the focus? What does it do?
-                   * CocoaPods will be using this to generate tags, and improve search results.
-                   * Try to keep it short, snappy and to the point.
-                   * Finally, don't worry about the indent, CocoaPods strips it!
+                   * UNLEDTableDriver brings a UITableView's row design and behavior closer together to help you focus on what your UITableView rows are doing
+                   * UNLEDTableDriver allow you to avoid complicated logic in UITableViewDataSource and UITableViewDelegate methods
                    DESC
 
   s.homepage     = "https://github.com/rob5408/UNLEDTableDriver"
@@ -78,7 +74,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/rob5408/UNLEDTableDriver.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/rob5408/UNLEDTableDriver.git", :tag => "0.0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
