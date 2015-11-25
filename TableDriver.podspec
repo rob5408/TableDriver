@@ -15,16 +15,16 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "UNLEDTableDriver"
-  s.version      = "0.0.2"
-  s.summary      = "UNLEDTableDriver delivers a simple way for providing a UITableView's DataSource and Delegate"
+  s.name         = "TableDriver"
+  s.version      = "1.0.0"
+  s.summary      = "TableDriver delivers a simple way for providing a UITableView's DataSource and Delegate"
 
   s.description  = <<-DESC
-                   * UNLEDTableDriver brings a UITableView's row design and behavior closer together to help you focus on what your UITableView rows are doing
-                   * UNLEDTableDriver allow you to avoid complicated logic in UITableViewDataSource and UITableViewDelegate methods
+                   * TableDriver brings a UITableView's row design and behavior closer together to help you focus on what your UITableView rows are doing
+                   * TableDriver allow you to avoid complicated logic in UITableViewDataSource and UITableViewDelegate methods
                    DESC
 
-  s.homepage     = "https://github.com/rob5408/UNLEDTableDriver"
+  s.homepage     = "https://github.com/rob5408/TableDriver"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -74,7 +74,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/rob5408/UNLEDTableDriver.git", :tag => "0.0.2" }
+  s.source       = { :git => "https://github.com/rob5408/TableDriver.git", :tag => "1.0.0" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -85,7 +85,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files    = "UNLEDTableDriver/*.{h,m}"
+  s.source_files    = "TableDriver/*.{swift}"
 
   # s.source_files  = "Classes", "Classes/**/*.{h,m}"
   # s.exclude_files = "Classes/Exclude"
